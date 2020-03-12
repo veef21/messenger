@@ -5,9 +5,21 @@
     <b-row align-h="center">
         <b-col cols="8">
             <b-card title="Inicio de Sesión" header-tag="header">
-                <b-alert show>
-                    Por favor ingrese sus datos:
-                </b-alert> 
+                
+                @if ($errors->any())
+                <b-alert show variant="danger">
+                    <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                </b-alert>
+                @else
+                    <b-alert show>
+                        Por favor ingresa tus datos:
+                    </b-alert>
+                @endif
+
                 <b-form method="POST" action="{{ route('login') }}">
                     @csrf
                     <b-form-group label="Usuario o correo electrónico:" label-for="email">
