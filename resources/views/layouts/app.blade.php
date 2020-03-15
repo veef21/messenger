@@ -1,4 +1,4 @@
-<!doctype html>
+<!doctype html class="h-100">
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -46,9 +46,9 @@
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
-        <main class="py-4">
+       <!-- <main class="py-4"> -->
             @yield('content')
-        </main>
+       <!-- </main> -->
     </div>
 </body>
 </html>
