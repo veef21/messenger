@@ -8,23 +8,45 @@
                 placeholder="Buscar contacto...">
             </b-form-input>
         </b-form>
-        <contact-component variant="dark">
+
+        <contact-component
+        v-for="conversation in conversations"
+        :key="conversation.id"
+        :conversation="conversation"
+        @click.native="selectConversation(conversation)">
+        </contact-component>
+        <!--<contact-component variant="dark">
         </contact-component>
 
         <contact-component variant="">
         </contact-component>
 
         <contact-component variant="secondary">
-        </contact-component>
+        </contact-component>-->
     </b-list-group>
 </div>
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-            }
+export default {
+    data() {
+        return {
+            conversations: []
+        };
+    },
+    mounted() {
+        this.getConversations();
+    },
+    methods: {
+        getConversations(){
+            axios.get('/messenger/public/api/conversations')
+            .then((response) => {
+               this.conversations = response.data;
+           });
+        },
+        selectConversation(conversation){
+            console.log("selectConversation sdasda", conversation);
         }
     }
+}
 </script>

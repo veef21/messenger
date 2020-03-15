@@ -43,6 +43,7 @@ export default {
         return {
             messages: [],
             newMessage: '',
+            contactId: 2,
             imgUser: { blank: true, rounded:'circle', blankColor: '#777', width: 60, height: 60, class: 'm-1' },
             imgChat: { blank: true, rounded:'circle', blankColor: '#777', width: 48, height: 48, class: 'm-1' }
         }
@@ -52,14 +53,14 @@ export default {
     },
     methods: {
         getMessages(){
-            axios.get('/messenger/public/api/messages')
+            axios.get(`/messenger/public/api/messages?contact_id=${this.contactId}`)
             .then((response) => {
                this.messages = response.data;   
            });
         },
         postMessage(){
             const params = {
-                to_id: 2,
+                to_id: this.contactId,
                 content: this.newMessage
             };
             axios.post('/messenger/public/api/messages', params)
