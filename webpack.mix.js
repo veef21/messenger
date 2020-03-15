@@ -11,5 +11,5 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+mix.js('resources/js/app.js', 'public/js').disableNotifications();//La función = .disableNotifications() Permite ocultar las notificaciones al momento de guardar componentes Vue.
+   //.sass('resources/sass/app.scss', 'public/css');

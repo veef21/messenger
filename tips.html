@@ -1,0 +1,502 @@
+COMANDOS ESENCIALES DE GIT
+
+<div>/****************************************** CONFIG --GLOBAL **********************************************/
+
+
+	1. git config --global user.name "NOMBRE_DE_USUARIO"
+	
+		Registra el usuario que va a interactuar con los repositorios.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	2. git config --global user.email "CORREO_DE_USUARIO"
+	
+		Registra el correo del usuario que va a interactuar con los repositorios.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	3. git config --global
+	
+		Visualiza el usuario creado para interactuar con los repositorios.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	4. git config --global alias.l "COMANDO_A_APODAR"
+		
+		Permite dar un alias a un comando, de esta forma pordras reducir el nombre al momento de llamarlo.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	5. git config --global core.editor NOMBRE_DEL_EDITOR_DE_TEXTO
+		
+		Permite configurar algún editor de texto para abrir archvos con git.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+
+<div>/****************************************** INIT - STATUS ************************************************/
+
+
+	1. git init
+	
+		Inicia el control de versiones de ahí en adelante, para eso lo debemos ejecutar en la ubicación
+		del archivo utilizando "cd /".
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	2. git init "NOMBRE_DE_LA_CARPETA_QUE_DONDE_DESEAR_QUE_INICIE"
+	
+		Inicia el control de versiones de ahí en adelante.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	3. git status
+		Muestra el status actual del proyecto, nos indica si existe archivos agragados
+		al control de versiones, modificaciones o cambios existentes.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+
+<div>/****************************************** ADD **********************************************************/
+
+
+	1. git add . | git add "ARCHIVO.EXT" | git add "CARPETA/" | "git add -a" | "git add --all"
+
+		Agrega carpetas, archivo o todos los archivos que estan fuera del seguimiento de cambios a una zona
+		llamada stage area (Zona intermediaria, archivos en espera de ser onfirmación).
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	2. git add "CARPETA/*.EXT" | git add "CARPETA/ARCHIVO.EXT"
+		
+		Agrega archivos especificos o todos los archivos dentro de una carpeta según la extension indicada.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+
+<div>/****************************************** RM ***********************************************************/
+
+
+	1. git rm --cached "ARCHIVO"
+	
+		Permite sacar el archivo del stage area.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	2. git rm -f "ARCHIVO"
+	
+		Permite sacar y forzar a eliminar el archivo del stage area.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	3. git rm archivo.ext
+		
+		Permite eliminar un archivo en especifico, registra dichos cambios.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+
+<div>/****************************************** COMMIT *******************************************************/
+
+
+	1. git commit -m "TITULO_DEL_CAMBIO"
+		
+		Confirma los archivos de la stage area para que se le realice seguimiento o control de cambios.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	2. git commit --amend
+		
+		Permite guardar un cambio al ultimo commit sin necesidad de anexarle o darle un nuevo nombre.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	3. git commit --amend -m "NUEVA_MODIFICACIÓN_AL_NOMBRE_DEL_COMMIT"
+		
+		Permite modificar el titulo o mensaje que se le dió a un commit en especifico.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+
+<div>/****************************************** RESET ********************************************************/
+
+
+	1. git reset carpeta/*.ext
+		
+		Permite retirar de la stage los archivos o carpetas que quieras, se utiliza la misma estructura que add
+		para agregar.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	2. git reset --soft CODIGO_O_HASH
+		
+		Permite quitar un o unos commit con sus respectivos cambios pero sin borrarlos sino que los mismos
+		los envia a stage area. Se borrará todos los commits partiendo del sha-1 que le indiquemos.
+
+		- Permite ubicarnos o dirigirnos a un respectivo commit anterior sin borrar o cambiar algo, esto
+		sirve para dar un paso atras y recuperar algún archivo borrado.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	3. git reset --hard CODIGO_O_HASH
+
+		Permite devolvernos hasta el commit que le indiquemos, quita los archivos de stage area, hasta del
+		working directory.
+		
+		- Permite recuperar los archivos que se tenía hasta ese momento.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	4. git reset --mixed CODIGO_O_HASH
+		
+		Quita  los commit pero los cambios los envia al working directory.
+
+		- Permite cambiar regresar a un commit evitando ralizar cambios en los demás commit que se anteponen,
+		es decir, regresas a un commit pero los cambios se mantienen.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+
+<div>/****************************************** DIFF *********************************************************/
+
+
+	1. git diff CODIGO_O_HASH
+		
+		Muestra los detalles o cambios que tuvo el commit.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	2. git diff CODIGO_O_HASH CODIGO_O_HASH
+		
+		Muestra los cambios o diferencias entre un commit y otro.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+
+<div>/****************************************** CHECKOUT *****************************************************/
+
+
+	1. git checkout NOMBRE_DE_RAMA_O_COMMIT
+		
+		Permite navegar por las diferentes ramas y commits.
+
+		-Revierte los cambios al ultimo commit.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+
+	2. git checkout -b NOMBRE_DE_LA_RAMA
+		
+		Permite crear una nueva rama y a la vez navega en la misma.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	3. git checkout -- NOMBRE_DEL_ARCHIVO
+		
+		Permite quitar los cambios que presenta el archivo especifico.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+
+<div>/****************************************** LOG **********************************************************/
+
+
+	1. git log
+		
+		Muestra el historico de los commit o cambios relizados.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	2. git log --oneline
+	
+		Renombra el tag que tenga ese contenido, en este caso seria la versión 0.5 y ademas podemos agregar
+		una anotación.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	3. git log --oneline --graph
+	
+		Renombra el tag que tenga ese contenido, en este caso seria la versión 0.5 y ademas podemos agregar
+		una anotación.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+
+<div>/****************************************** MV ***********************************************************/
+
+
+	1. git mv archivo.ext NUEVO_NOMBRE
+		
+		Permite renombrar un archivo en especifico, registra dichos cambios.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+
+<div>/****************************************** REFLOG *******************************************************/
+
+
+	1. git reflog
+		
+		Permite ver un historial detallado.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+
+<div>/****************************************** TAG **********************************************************/
+
+
+	1. git tag NOMBRE_DE_LA_VERSION
+	
+		Es una etiqueta lijera, NOMBRE_DE_LA_VERSION es la version de como vamos a etiquetarla.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	2. git tag -a NOMBRE_DE_LA_VERSION -m "NOMBRE_O_DESCRIPCION" 
+	
+		Es una etiqueta de anotación, NOMBRE_DE_LA_VERSION es la version de como vamos a etiquetarla más una
+		anotación es la descripción.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	3. git tag -l 
+	
+		Ver lista de tag.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	4. git tag NOMBRE_DE_LA_VERSION CODIGO_O_HASH
+	
+		Etiquetar viejos commits. NOMBRE_DE_LA_VERSION es la versión o nombre del tag y el CODIGO_O_HASH es el
+		sha1 que identifica el commit que se desea hacer el cambio.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	5. git tag -d NOMBRE_DE_LA_VERSION
+	
+		Elimina el tag que tenga ese contenido, en este caso seria la versión NOMBRE_DE_LA_VERSION
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	6. git tag -f -a NOMBRE_DE_LA_VERSION
+	
+		Renombra el tag que tenga ese contenido, en este caso seria la versión NOMBRE_DE_LA_VERSION y ademas
+		podemos agregar	una anotación.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+
+<div>/****************************************** BRANCH **********************************************************/
+
+
+	1. git branch NOMBRE_DE_LA_RAMA
+	
+		Permite crear una nueva rama, por defaul siempre cuando comenzamos un nuevo proyecto en git se crea la
+		rama master.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	2. git branch -l
+	
+		Permite listar las ramas creadas.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	3. git branch -d NOMBRE_DE_LA_RAMA
+	
+		Permite eliminar una rama en específico que no tenga cambios o commits.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	4. git branch -D NOMBRE_DE_LA_RAMA
+	
+		Permite forzar el borrado de una rama en específico no importa que tenga cambios o commits.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	5. git branch -m VIEJO_NOMBRE NUEVO_NOMBRE
+	
+		Permite renombrar una rama.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+
+<div>/****************************************** MERGE **********************************************************/
+
+
+	1. git merge NOMBRE_DE_LA_RAMA
+	
+		Permite mezclar o unir ramas. Nota debes situarte en la master para unir la rama indicada a la
+		rama master
+		Nota: si da error en histories, entonces terminamos colocando: --allow-unrelated-histories
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+<div>/****************************************** REBASE **********************************************************/
+
+
+	1. git rebase NOMBRE_DE_LA_RAMA
+	
+		Permite reescribir la historia de nuestro historial y evita que se hagan bifurcaciones en el historial del log.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	2. git rebase -i NOMBRE_DE_LA_RAMA
+	
+		Permite reescribir la historia de nuestro historial y evita que se hagan bifurcaciones en el historial del log. El -i Permite ver los diversos comando que se pueden hacer con la funcion rebase.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+
+<div>/****************************************** STASH **********************************************************/
+
+
+	1. git stash
+	
+		Permite guardar tus cambios en un stash, de esta forma se guardan los cambios sin necesidad de realizarle un commit. Se permiten guardar todo aquellos cambios que esten agregado o aplicado la funcion add.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	2. git stash list
+	
+		Permite ver la lista de stash.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	3. git stash drop stash@{0}
+	
+		Permite eliminar un stash. El stash@{0} es la referencia del cual deseamos borrar.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+	4. git stash apply
+	
+		Permite aplicar los cambios pero solo elultimo cambio, es decir el que está ubicado en el stash@{0}.
+	-----------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+<div>/****************************************** CHERRY PICK **********************************************************/
+
+
+	1. git cherry-pick CODIGO_O_HASH
+	
+		Permite llevarnos un commit a una rama. Dentro de dicha rama ejecutamos el comando.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+<div>/****************************************** CLONE **********************************************************/
+
+
+	1. git clone LINK_DEL_PROYECTO
+	
+		Permite clonar un proyecto directo de github.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+<div>/****************************************** FORK **********************************************************/
+
+
+	1. fork
+	
+		Permite clonar un proyecto de github y agregarlo un proyecto directo en su cuenta github.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+<div>/****************************************** REMOTE **********************************************************/
+
+
+	1. git remote add NOMBRE_DEL_REPOSITORIO (NORMALMETE ES origin) CUENTA (git@github.com:veef21/invie-github.git)
+	
+		Permite agregar un repositorio remoto.
+		-----------------------------------------------------------------------------------------------------------
+		-----------------------------------------------------------------------------------------------------------
+
+	2. git remote -v
+	
+		Permite ver si el repositorio está OK, enlazado.
+	-----------------------------------------------------------------------------------------------------------
+	3. git remote remove NOMBRE (origin)
+	
+		Permite quitar o desenlazar un repositorio.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+<div>/****************************************** FETCH **********************************************************/
+
+
+	1. git fetch NOMBRE (origin) RAMA (master)
+	
+		Permite traernos los archivos del repositorio remoto.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+<div>/****************************************** PULL **********************************************************/
+
+
+	1. git pull NOMBRE (origin) RAMA (master)
+	
+		Permite traernos los archivos del repositorio remoto y mesclar con nuestro repositorio local.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+<div>/****************************************** PUSH **********************************************************/
+
+
+	1. git push NOMBRE (origin) RAMA (master)
+	
+		Permite subir los archivos o nuevos cambios al repositorio remoto.
+		Nota: Para subir los tags solo colocamos al final --tags
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+<div>/****************************************** ----- **********************************************************/
+
+
+	1. git fetch NOMBRE (origin) RAMA (master)
+	
+		Permite traernos los archivos del repositorio remoto.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+<div>/****************************************** ----- **********************************************************/
+
+
+	1. git fetch NOMBRE (origin) RAMA (master)
+	
+		Permite traernos los archivos del repositorio remoto.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+<div>/****************************************** ----- **********************************************************/
+
+
+	1. git fetch NOMBRE (origin) RAMA (master)
+	
+		Permite traernos los archivos del repositorio remoto.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+<div>/****************************************** ----- **********************************************************/
+
+
+	1. git fetch NOMBRE (origin) RAMA (master)
+	
+		Permite traernos los archivos del repositorio remoto.
+	-----------------------------------------------------------------------------------------------------------
+</div>
+
+PASOS A SEGUIR PARA INSTALAR LARAVEL CON SU RESPECTIVO MODULO DEL LOGIN:
+$ laravel new messenger
+$ composer require laravel/ui
+$ php artisan ui vue --auth
+$ npm i
+$ npm run dev
+$ php artisan serve
+
+INICIANDO, CREANDO Y SUBIENDO NUESTRO PRIMER COMMIT DEL PROYECTO 
+$ git init
+$ git add -A
+$ git commit -m "Initial commint"
+$ git remote add origin https://github.com/veef21/messenger.git
+$ git push origin master
+
+INSTALANDO LIBRERÍA DE BOOTSTRAP-VUE 
+$ npm install vue bootstrap-vue bootstrap
+
+SEGUNDO COMMIT
+$ git commit -m "Login UI advances"
+
+CREACION DE SEED
+$ php artisan make:seeder UsersTableSeeder
+$ php artisan migrate --seed
+
+CREACIÓN DE MODELO Y LA (-m) PARA CREAR LA MIGRACIÓN
+$ php artisan make:model Conversation -m
+
+CREACIÓN DE CONTROLADORES
+$ php artisan make:controller ConversationController
+
+EJECUCIÓN DE MIGRACiÓN
+php artisan migrate
+
+REFRESCAR DATABASE (BORRA Y CREANUEVAMENTE)
+$ php artisan migrate:refresh --seed
+
+SIRVE PARA EJECUTAR CODIGO PHP
+$ php artisan tinker
+
+
+COSAS AGREGADAS PENDIENTE POR ARREGLAR:
+
+Ruta: components/ActiveConversationComponente.vue
+<b-card style="border-radius: 5rem; background-color: #007bff; color: #fff;">

@@ -17,11 +17,15 @@ Vue.component('contact-list-component',
 	);
 
 Vue.component('active-conversation-component',
-	require('./components/ActiveConversationComponente.vue').default
+	require('./components/ActiveConversationComponent.vue').default
 	);
 
 Vue.component('message-conversation-component',
 	require('./components/MessageConversationComponent.vue').default
+	);
+
+Vue.component('messenger-component',
+	require('./components/MessengerComponent.vue').default
 	);
 
 

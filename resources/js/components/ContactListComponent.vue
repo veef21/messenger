@@ -45,7 +45,7 @@ export default {
            });
         },
         selectConversation(conversation){
-            console.log("selectConversation sdasda", conversation);
+            this.$emit('conversationSelected', conversation)
         }
     }
 }

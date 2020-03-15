@@ -39,11 +39,13 @@
 
 <script>
 export default {
+    props: {
+        contactId: Number
+    },
     data() {
         return {
             messages: [],
             newMessage: '',
-            contactId: 2,
             imgUser: { blank: true, rounded:'circle', blankColor: '#777', width: 60, height: 60, class: 'm-1' },
             imgChat: { blank: true, rounded:'circle', blankColor: '#777', width: 48, height: 48, class: 'm-1' }
         }
@@ -70,6 +72,12 @@ export default {
                     this.getMessages();
                 }
            });
+        },
+    },
+    watch: {
+        contactId(value){
+            //console.log(`value de contactId es: -> ${this.contactId}`);
+            this.getMessages();
         }
     }
 }
