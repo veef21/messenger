@@ -1,84 +1,106 @@
 <template>
     <b-row class="h-100">
         <b-col cols="8">
-            <b-card footer-bg-variant="light" footer-border-variant="dark" title="Conversación activa" class="h-100">
+            <b-card no-body
+            footer-bg-variant="light"
+            footer-border-variant="dark"
+            class="h-100">
 
-                <message-conversation-component
-                v-for="message in messages"
-                :key="message.id"
+            <b-card-body class="card-body-scroll"> 
+                <message-conversation-component 
+                v-for="message in messages" :key="message.id"
                 :written-by-me="message.written_by_me">
                 {{ message.content }}
             </message-conversation-component>
+        </b-card-body>
 
-            <div slot="footer">
-                <b-form class="mb-0" @submit.prevent="postMessage" autocomplete="off">
-                    <b-input-group>
-                        <b-form-input class="text-center"
-                        type="text"
-                        v-model="newMessage"
-                        placeholder="Buscar contacto..."></b-form-input>
-                        <b-input-group-append>
+        <div slot="footer">
+            <b-form class="mb-0" @submit.prevent="postMessage" autocomplete="off">
+                <b-input-group>
+                    <b-form-input class="text-center"
+                    type="text"
+                    v-model="newMessage"
+                    placeholder="Escribe un mensaje..."></b-form-input>
+                    <b-input-group-append>
 
-                            <b-button type="submit" variant="primary">Enviar</b-button>
-                        </b-input-group-append>
-                    </b-input-group>
-                </b-form>
-            </div>
-        </b-card>
-    </b-col>
-    <b-col cols="4">
-        <b-img v-bind="imgUser" alt="Circle image"></b-img>
-        <p class="mb-1">Usuario Seleccionado</p>
-        <hr>
-        <b-form-checkbox>
-            Desactivar notificación
-        </b-form-checkbox>
-    </b-col>
+                        <b-button type="submit" variant="primary">Enviar</b-button>
+                    </b-input-group-append>
+                </b-input-group>
+            </b-form>
+        </div>
+    </b-card>
+</b-col>
+<b-col cols="4">
+    <b-img v-bind="imgUser" alt="Circle image"></b-img>
+    <p class="mb-1">{{ contactName }}</p>
+    <hr>
+    <b-form-checkbox>
+        Desactivar notificación
+    </b-form-checkbox>
+</b-col>
 </b-row>
 </template>
+
+<style> 
+.card-body-scroll {
+    max-height: calc(100vh - 121px);
+    overflow-y: auto;
+}
+</style>
 
 <script>
 export default {
     props: {
-        contactId: Number
+        contactId: Number,
+        contactName: String,
+        messages: Array
     },
     data() {
         return {
-            messages: [],
             newMessage: '',
             imgUser: { blank: true, rounded:'circle', blankColor: '#777', width: 60, height: 60, class: 'm-1' },
             imgChat: { blank: true, rounded:'circle', blankColor: '#777', width: 48, height: 48, class: 'm-1' }
         }
     },
     mounted() {
-        this.getMessages();
+        //this.getMessages();
     },
     methods: {
-        getMessages(){
-            axios.get(`/messenger/public/api/messages?contact_id=${this.contactId}`)
+        /*getMessages(){
+            axios.get(`api/messages?contact_id=${this.contactId}`)
             .then((response) => {
                this.messages = response.data;   
            });
-        },
-        postMessage(){
-            const params = {
-                to_id: this.contactId,
-                content: this.newMessage
-            };
-            axios.post('/messenger/public/api/messages', params)
+       },*/
+       postMessage(){
+        const params = {
+            to_id: this.contactId,
+            content: this.newMessage
+        };
+        axios.post('api/messages', params)
             .then((response) => {
                 if (response.data.success){
                     this.newMessage = '';
-                    this.getMessages();
+                    const message = response.data.message;
+                    console.log("message", message);
+                    message.written_by_me = true;
+                    this.$emit('messageCreated', message);
                 }
-           });
+            });
         },
+        scrollToBottom() {
+            const el = document.querySelector('.card-body-scroll');
+                el.scrollTop = el.scrollHeight;
+        }
     },
+    updated() {
+            this.scrollToBottom();
+        }/*,
     watch: {
         contactId(value){
             //console.log(`value de contactId es: -> ${this.contactId}`);
             this.getMessages();
         }
-    }
+    }*/
 }
 </script>

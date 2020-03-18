@@ -1,38 +1,79 @@
 <template>
-	<b-container fluid style="height: calc(100vh - 56px/*104px*/);">
-		<b-row class="h-100" no-gutters>
+	<b-container fluid style="height: calc(100vh - 56px);">
+		<b-row no-gutters class="h-100">
 			<b-col cols="4">
-				<contact-list-component @conversationSelected="changeActiveConversation($event)"></contact-list-component>
-			</b-col>
-			<b-col cols="8">
-				<active-conversation-component
-				v-if="selectConversation"
-				:contact-id="selectConversation.contact_id">
-
-			</active-conversation-component> 
+				<contact-list-component
+				@conversationSelected="changeActiveConversation($event)"
+				:conversations="conversations">
+			</contact-list-component>
 		</b-col>
-	</b-row>
+		<b-col cols="8">
+			<active-conversation-component
+			v-if="selectedConversation"
+			:contact-id="selectedConversation.contact_id"
+			:contact-name="selectedConversation.contact_name"
+			:messages="messages"
+			@messageCreated="addMessage($event)">
+		</active-conversation-component> 
+	</b-col>
+</b-row>
 </b-container>
 </template>
 
 <script>
+//104px
 export default {
+	props: {
+		userId: Number
+	},
 	data() {
 		return {
-			selectConversation: null
+			selectedConversation: null,
+			messages: [],
+			conversations: []
 		};
 	},
 	mounted() {
-		Echo.channel('example')
-		.listen('MessageSent', (e) => {
-			console.log("Datos retornados -> ", e);
+		this.getConversations();
+
+		Echo.private(`users.${this.userId}`)
+		.listen('MessageSent', (data) => {
+			const message = data.message;
+			message.written_by_me = false;
+			console.log("message de MessengerComponent.vue= ", message);
+			this.addMessage(message);
 		});
 	},
 	methods: {
 		changeActiveConversation(conversation){
-    		//console.log("Nueva seleccion", conversation);
-    		this.selectConversation = conversation;
-    	}
-    }
+			this.selectedConversation = conversation;
+			this.getMessages();
+		},
+		getMessages(){
+			axios.get(`api/messages?contact_id=${this.selectedConversation.contact_id}`)
+			.then((response) => {
+				this.messages = response.data; 
+			});
+		},
+		addMessage(message){
+			const conversation = this.conversations.find((conversation) => {
+				return conversation.contact_id == message.from_id || conversation.contact_id == message.to_id;
+			});
+
+			const author = this.userId === message.from_id ? 'Tú' : conversation.contact_name;
+			conversation.last_message = `${author}: ${message.content}`;
+			conversation.last_time = message.created_at;
+
+			if (this.selectedConversation.contact_id == message.to_id || this.selectedConversation.contact_id == message.from_id){
+				this.messages.push(message);
+			}
+		},
+		getConversations(){
+            axios.get('api/conversations')
+            .then((response) => {
+               this.conversations = response.data;
+           });
+        },
+	}
 }
 </script>

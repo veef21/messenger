@@ -18,7 +18,6 @@ export default {
     }, 
     data() {
         return {
-            content: 'abc',
             imgChat: { blank: true, rounded:'circle', blankColor: '#777', width: 48, height: 48, class: 'm-1' }
         };
     },

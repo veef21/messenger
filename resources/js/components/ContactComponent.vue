@@ -9,22 +9,31 @@
                 <p class="text-muted small mb-1">{{ conversation.last_message }}</p>
             </b-col>
             <b-col cols="3" class="d-none d-md-block">
-                <p class="text-muted small">{{ conversation.last_time }}</p>
+                <p class="text-muted small">{{ lastTime }}</p>
             </b-col>
         </b-row>
     </b-list-group-item>
 </template>
 
 <script>
-  export default {
+export default {
     props: {
         variant: String,
         conversation: Object
     },
     data() {
-      return {
-        listUser: { blank: true, blankColor: '#777', width: 60, height: 60, class: 'm-1' }
-    };
-}
+        return {
+            listUser: { blank: true, blankColor: '#777', width: 60, height: 60, class: 'm-1' }
+        };
+    },
+    computed: {
+        lastTime() {
+            return moment(this.conversation.last_time, "YYYY-MM-DD hh:mm:ss")
+            .locale('es').fromNow();
+        }/*,
+        variant() {
+            return this.selected ? 'info' : '';
+        }*/
+    }
 }
 </script>

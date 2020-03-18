@@ -29,22 +29,18 @@
 
 <script>
 export default {
+    props: {
+        conversations: Array
+    },
     data() {
         return {
-            conversations: []
         };
     },
     mounted() {
-        this.getConversations();
     },
     methods: {
-        getConversations(){
-            axios.get('/messenger/public/api/conversations')
-            .then((response) => {
-               this.conversations = response.data;
-           });
-        },
         selectConversation(conversation){
+            console.log("selectConversation", conversation);
             this.$emit('conversationSelected', conversation)
         }
     }

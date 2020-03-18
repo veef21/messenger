@@ -8,7 +8,8 @@ use DB;
 
 class MessageController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
     	$userId = auth()->id();
     	$contactId = $request->contact_id;
     	return Message::select(
@@ -23,7 +24,8 @@ class MessageController extends Controller
     	})->get();
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
     	$message = new Message();
     	$message->from_id = auth()->id();
     	$message->to_id = $request->to_id;
@@ -32,6 +34,7 @@ class MessageController extends Controller
 
     	$data = [];
     	$data['success'] = $saved;
+        $data['message'] = $message;
     	return $data;
     }
 }
