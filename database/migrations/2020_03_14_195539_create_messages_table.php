@@ -24,6 +24,7 @@ class CreateMessagesTable extends Migration
 
             // content
             $table->text('content');
+            $table->dateTime('last_time')->nullable();
             
             $table->timestamps();
         });

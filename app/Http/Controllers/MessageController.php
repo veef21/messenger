@@ -30,6 +30,7 @@ class MessageController extends Controller
     	$message->from_id = auth()->id();
     	$message->to_id = $request->to_id;
     	$message->content = $request->content;
+        $message->last_time = date("Y-m-d H:i:s");
     	$saved = $message->save();
 
     	$data = [];

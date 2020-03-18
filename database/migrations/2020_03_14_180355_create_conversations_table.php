@@ -14,7 +14,7 @@ class CreateConversationsTable extends Migration
     public function up()
     {
         Schema::create('conversations', function (Blueprint $table) {
-            $table->id('id');
+            $table->increments('id');
 
             // user
             $table->unsignedBigInteger('user_id');

@@ -49,58 +49,45 @@
 </style>
 
 <script>
-export default {
-    props: {
-        contactId: Number,
-        contactName: String,
-        messages: Array
-    },
-    data() {
-        return {
-            newMessage: '',
-            imgUser: { blank: true, rounded:'circle', blankColor: '#777', width: 60, height: 60, class: 'm-1' },
-            imgChat: { blank: true, rounded:'circle', blankColor: '#777', width: 48, height: 48, class: 'm-1' }
-        }
-    },
-    mounted() {
-        //this.getMessages();
-    },
-    methods: {
-        /*getMessages(){
-            axios.get(`api/messages?contact_id=${this.contactId}`)
-            .then((response) => {
-               this.messages = response.data;   
-           });
-       },*/
-       postMessage(){
-        const params = {
-            to_id: this.contactId,
-            content: this.newMessage
-        };
-        axios.post('api/messages', params)
-            .then((response) => {
-                if (response.data.success){
-                    this.newMessage = '';
-                    const message = response.data.message;
-                    console.log("message", message);
-                    message.written_by_me = true;
-                    this.$emit('messageCreated', message);
-                }
-            });
+    export default {
+        props: {
+            contactId: Number,
+            contactName: String,
+            messages: Array
         },
-        scrollToBottom() {
-            const el = document.querySelector('.card-body-scroll');
+        data() {
+            return {
+                newMessage: '',
+                imgUser: { blank: true, rounded:'circle', blankColor: '#777', width: 48, height: 48, class: 'm-1' },
+            };
+        },
+        mounted() {
+
+        },
+        methods: {
+            postMessage() {
+                const params = {
+                    to_id: this.contactId,
+                    content: this.newMessage
+                };
+                axios.post('/api/messages', params)
+                .then((response) => {
+                    if (response.data.success) {
+                        this.newMessage = '';
+                        const message = response.data.message;
+                        message.written_by_me = true;
+                        this.$emit('messageCreated', message);
+                    }
+                });
+            },
+            scrollToBottom() {
+                const el = document.querySelector('.card-body-scroll');
                 el.scrollTop = el.scrollHeight;
-        }
-    },
-    updated() {
+            }
+        },
+        updated() {
             this.scrollToBottom();
-        }/*,
-    watch: {
-        contactId(value){
-            //console.log(`value de contactId es: -> ${this.contactId}`);
-            this.getMessages();
+            console.log('messages ha cambiado');
         }
-    }*/
-}
+    }
 </script>

@@ -40,7 +40,6 @@ export default {
 		.listen('MessageSent', (data) => {
 			const message = data.message;
 			message.written_by_me = false;
-			console.log("message de MessengerComponent.vue= ", message);
 			this.addMessage(message);
 		});
 	},
@@ -62,7 +61,7 @@ export default {
 
 			const author = this.userId === message.from_id ? 'Tú' : conversation.contact_name;
 			conversation.last_message = `${author}: ${message.content}`;
-			conversation.last_time = message.created_at;
+			conversation.last_time = message.last_time;
 
 			if (this.selectedConversation.contact_id == message.to_id || this.selectedConversation.contact_id == message.from_id){
 				this.messages.push(message);

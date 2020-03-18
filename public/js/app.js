@@ -1971,29 +1971,14 @@ __webpack_require__.r(__webpack_exports__);
         blank: true,
         rounded: 'circle',
         blankColor: '#777',
-        width: 60,
-        height: 60,
-        "class": 'm-1'
-      },
-      imgChat: {
-        blank: true,
-        rounded: 'circle',
-        blankColor: '#777',
         width: 48,
         height: 48,
         "class": 'm-1'
       }
     };
   },
-  mounted: function mounted() {//this.getMessages();
-  },
+  mounted: function mounted() {},
   methods: {
-    /*getMessages(){
-        axios.get(`api/messages?contact_id=${this.contactId}`)
-        .then((response) => {
-           this.messages = response.data;   
-       });
-    },*/
     postMessage: function postMessage() {
       var _this = this;
 
@@ -2001,11 +1986,10 @@ __webpack_require__.r(__webpack_exports__);
         to_id: this.contactId,
         content: this.newMessage
       };
-      axios.post('api/messages', params).then(function (response) {
+      axios.post('/api/messages', params).then(function (response) {
         if (response.data.success) {
           _this.newMessage = '';
           var message = response.data.message;
-          console.log("message", message);
           message.written_by_me = true;
 
           _this.$emit('messageCreated', message);
@@ -2019,15 +2003,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   updated: function updated() {
     this.scrollToBottom();
+    console.log('messages ha cambiado');
   }
-  /*,
-  watch: {
-  contactId(value){
-     //console.log(`value de contactId es: -> ${this.contactId}`);
-     this.getMessages();
-  }
-  }*/
-
 });
 
 /***/ }),
@@ -2238,7 +2215,6 @@ __webpack_require__.r(__webpack_exports__);
     Echo["private"]("users.".concat(this.userId)).listen('MessageSent', function (data) {
       var message = data.message;
       message.written_by_me = false;
-      console.log("message de MessengerComponent.vue= ", message);
 
       _this.addMessage(message);
     });
@@ -2261,7 +2237,7 @@ __webpack_require__.r(__webpack_exports__);
       });
       var author = this.userId === message.from_id ? 'Tú' : conversation.contact_name;
       conversation.last_message = "".concat(author, ": ").concat(message.content);
-      conversation.last_time = message.created_at;
+      conversation.last_time = message.last_time;
 
       if (this.selectedConversation.contact_id == message.to_id || this.selectedConversation.contact_id == message.from_id) {
         this.messages.push(message);
