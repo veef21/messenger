@@ -2,77 +2,71 @@
 	<b-container fluid style="height: calc(100vh - 56px);">
 		<b-row no-gutters class="h-100">
 			<b-col cols="4">
-				<contact-list-component
-				@conversationSelected="changeActiveConversation($event)"
-				:conversations="conversations">
-			</contact-list-component>
-		</b-col>
-		<b-col cols="8">
-			<active-conversation-component
-			v-if="selectedConversation"
-			:contact-id="selectedConversation.contact_id"
-			:contact-name="selectedConversation.contact_name"
-			:messages="messages"
-			@messageCreated="addMessage($event)">
-		</active-conversation-component> 
-	</b-col>
-</b-row>
-</b-container>
+				<contact-form-component/>
+				<contact-list-component/>
+			</b-col>
+			<b-col cols="8">
+				<active-conversation-component
+				v-if="selectedConversation"/>
+			</b-col>
+		</b-row>
+	</b-container>
 </template>
 
 <script>
 //104px
 export default {
 	props: {
-		userId: Number
-	},
-	data() {
-		return {
-			selectedConversation: null,
-			messages: [],
-			conversations: []
-		};
+		user: Object
 	},
 	mounted() {
-		this.getConversations();
+		this.$store.commit('setUser', this.user);
 
-		Echo.private(`users.${this.userId}`)
+		this.$store
+		.dispatch('getConversations')
+		.then(() => {
+			const conversationId = this.$route.params.conversationId;
+			if (conversationId) {
+				const conversation = this.$store.getters.getConversationById(conversationId);
+				console.log("conversation", conversation);
+                      this.$store.dispatch('getMessages', conversation);
+                    }
+                });
+
+		Echo.private(`users.${this.user.id}`)
 		.listen('MessageSent', (data) => {
 			const message = data.message;
 			message.written_by_me = false;
 			this.addMessage(message);
 		});
+
+		Echo.join('messenger')
+		.here((users) => {
+			users.forEach(user => this.changeStatus(user, true));
+		})
+		.joining(
+			user => this.changeStatus(user, true)
+			)
+		.leaving(
+			user => this.changeStatus(user, false)  
+			);
 	},
 	methods: {
-		changeActiveConversation(conversation){
-			this.selectedConversation = conversation;
-			this.getMessages();
-		},
-		getMessages(){
-			axios.get(`api/messages?contact_id=${this.selectedConversation.contact_id}`)
-			.then((response) => {
-				this.messages = response.data; 
+		changeStatus(user, status) {
+			const index = this.$store.state.conversations.findIndex(conversation => {
+				return conversation.contact_id == user.id;
 			});
+			if (index >= 0)
+				this.$set(this.$store.state.conversations[index], 'online', status);
 		},
 		addMessage(message){
-			const conversation = this.conversations.find((conversation) => {
-				return conversation.contact_id == message.from_id || conversation.contact_id == message.to_id;
-			});
-
-			const author = this.userId === message.from_id ? 'Tú' : conversation.contact_name;
-			conversation.last_message = `${author}: ${message.content}`;
-			conversation.last_time = message.last_time;
-
-			if (this.selectedConversation.contact_id == message.to_id || this.selectedConversation.contact_id == message.from_id){
-				this.messages.push(message);
-			}
-		},
-		getConversations(){
-            axios.get('api/conversations')
-            .then((response) => {
-               this.conversations = response.data;
-           });
-        },
+			this.$store.commit('addMessage', message);
+		}
+	},
+	computed: {
+		selectedConversation() {
+			return this.$store.state.selectedConversation;
+		}
 	}
 }
 </script>

@@ -15,6 +15,7 @@ class ConversationController extends Controller
     		'listen_notifications',
     		'last_message',
     		'last_time',
+            //'contact_image',
     		//'contact_name',
     	]);
     }

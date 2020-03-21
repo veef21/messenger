@@ -1,48 +1,47 @@
 <template>
-    <div>
-        <b-list-group>
-            <b-form class="my-3 mx-2">
-                <b-form-input class="text-center"
-                type="text"
-                required
-                placeholder="Buscar contacto...">
-            </b-form-input>
-        </b-form>
-
+    <b-list-group>
         <contact-component
-        v-for="conversation in conversations"
+        v-for="conversation in conversationsFiltered"
         :key="conversation.id"
         :conversation="conversation"
+        :selected="isSelected(conversation)"
         @click.native="selectConversation(conversation)">
-        </contact-component>
-        <!--<contact-component variant="dark">
-        </contact-component>
-
-        <contact-component variant="">
-        </contact-component>
-
-        <contact-component variant="secondary">
-        </contact-component>-->
+    </contact-component>
     </b-list-group>
-</div>
 </template>
 
 <script>
 export default {
-    props: {
-        conversations: Array
-    },
     data() {
         return {
+            //selectConversationId: null
         };
     },
     mounted() {
     },
     methods: {
         selectConversation(conversation){
-            console.log("selectConversation", conversation);
-            this.$emit('conversationSelected', conversation)
+            this.$router.push(`/chat/${conversation.id}`, () => {
+                    this.$store.dispatch('getMessages', conversation);
+                });
+            //this.selectConversationId = conversation.id;
+            //this.$store.dispatch('getMessages', conversation);
+            //this.$emit('conversationSelected', conversation);
+            //eventBus.$emit('example', conversation);
+        },
+        isSelected(conversation) {
+                if (this.selectedConversation)
+                    return this.selectedConversation.id === conversation.id;
+                return false;
+            }
+    },
+    computed: {
+            selectedConversation() {
+                return this.$store.state.selectedConversation;
+            },
+            conversationsFiltered() {
+                return this.$store.getters.conversationsFiltered;
+            }
         }
-    }
 }
 </script>
